@@ -66,7 +66,9 @@ namespace Minerals.AutoCQRS.Generators
         private static void AppendNamespace(CodeBuilder builder)
         {
             builder.WriteLine("namespace Minerals.AutoCQRS")
-                .OpenBlock();
+                .OpenBlock()
+                .WriteLine("using global::Microsoft.Extensions.DependencyInjection.Extensions;")
+                .WriteLine("using global::Microsoft.Extensions.DependencyInjection;");
         }
 
         private static void AppendStaticClass(CodeBuilder builder)
@@ -81,8 +83,8 @@ namespace Minerals.AutoCQRS.Generators
                 .Write("(this global::Microsoft.Extensions.DependencyInjection.IServiceCollection collection)")
                 .OpenBlock();
 
-            builder.WriteLine("collection.TryAddSingleton<global::Minerals.AutoCQRS.Interfaces.ICommandDispatcher, global::Minerals.AutoCQRS.CommandDispatcher>()");
-            builder.WriteLine("collection.TryAddSingleton<global::Minerals.AutoCQRS.Interfaces.IQueryDispatcher, global::Minerals.AutoCQRS.QueryDispatcher>()");
+            builder.WriteLine("collection.TryAddSingleton<global::Minerals.AutoCQRS.Interfaces.ICommandDispatcher, global::Minerals.AutoCQRS.CommandDispatcher>();");
+            builder.WriteLine("collection.TryAddSingleton<global::Minerals.AutoCQRS.Interfaces.IQueryDispatcher, global::Minerals.AutoCQRS.QueryDispatcher>();");
 
             foreach (var name in names)
             {
