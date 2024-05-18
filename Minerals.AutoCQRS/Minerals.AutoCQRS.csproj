@@ -1,0 +1,68 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <ImplicitUsings>disable</ImplicitUsings>
+        <LangVersion>12</LangVersion>
+        <Nullable>enable</Nullable>
+        <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
+        <RootNamespace>Minerals.AutoCQRS</RootNamespace>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <Version>0.1.0</Version>
+        <Title>AutoCQRS</Title>
+        <Authors>Szymon Hałucha</Authors>
+        <Product>AutoCQRS</Product>
+        <Description>Simple NuGet package that provides interfaces for implementing the CQRS pattern along with automatic dependency injection and no MediatR package overhead</Description>
+        <Copyright>Copyright © Szymon Hałucha 2024</Copyright>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <PackageId>Minerals.AutoCQRS</PackageId>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageProjectUrl>https://github.com/SzymonHalucha/Minerals.AutoCQRS</PackageProjectUrl>
+        <PackageTags>cqrs, pattern, ddd, dependency, injection, di, interfaces, command, query, commands, queries</PackageTags>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageReleaseNotes>First release</PackageReleaseNotes>
+        <IsPackable>true</IsPackable>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <RepositoryUrl>https://github.com/SzymonHalucha/Minerals.AutoCQRS.git</RepositoryUrl>
+        <PublishRepositoryUrl>true</PublishRepositoryUrl>
+        <RepositoryBranch>v$(Version)</RepositoryBranch>
+        <RepositoryType>git</RepositoryType>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)'=='Release'">
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <EnablePackageValidation>true</EnablePackageValidation>
+        <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
+        <IncludeBuildOutput>false</IncludeBuildOutput>
+        <Optimize>true</Optimize>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="README.md" Pack="true" PackagePath="" />
+        <None Include="..\LICENSE" Pack="true" PackagePath="" />
+        <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers\dotnet\cs" />
+        <None Include="$(PKGMinerals_CodeBuilder)\lib\netstandard2.0\Minerals.CodeBuilder.dll" Pack="true" PackagePath="analyzers\dotnet\cs" />
+        <None Include="..\Minerals.AutoCQRS.Generators\bin\$(Configuration)\netstandard2.0\Minerals.AutoCQRS.Generators.dll" Pack="true" PackagePath="analyzers\dotnet\cs" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.*" GeneratePathProperty="true" PrivateAssets="all" />
+    </ItemGroup>
+
+    <Target Condition="'$(Configuration)' == 'Release'" Name="CustomCompile" BeforeTargets="Compile">
+        <MSBuild Projects="..\Minerals.AutoCQRS.Generators\Minerals.AutoCQRS.Generators.csproj"
+            Properties="Configuration=$(Configuration);
+                        Optimize=$(Optimize);
+                        Version=$(Version);
+                        Authors=$(Authors);
+                        Description=$(Description);
+                        Copyright=$(Copyright)" />
+    </Target>
+
+</Project>
