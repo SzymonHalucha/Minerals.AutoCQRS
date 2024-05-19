@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFrameworks>net8.0</TargetFrameworks>
+        <ImplicitUsings>disable</ImplicitUsings>
+        <LangVersion>12</LangVersion>
+        <Nullable>enable</Nullable>
+        <IsPackable>false</IsPackable>
+        <IsTestProject>true</IsTestProject>
+        <RootNamespace>Minerals.AutoCQRS.Benchmarks</RootNamespace>
+        <Optimize>true</Optimize>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Minerals.AutoCQRS\Minerals.AutoCQRS.csproj" />
+        <ProjectReference Include="..\Minerals.AutoCQRS.Generators\Minerals.AutoCQRS.Generators.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Minerals.CodeBuilder" Version="0.2.0" />
+        <PackageReference Include="BenchmarkDotNet" Version="0.13.*" />
+        <PackageReference Include="Microsoft.Bcl.HashCode" Version="1.1.*" />
+        <PackageReference Include="Microsoft.CodeAnalysis" Version="4.*" />
+    </ItemGroup>
+
+</Project>

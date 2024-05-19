@@ -5,8 +5,11 @@
         <ImplicitUsings>disable</ImplicitUsings>
         <LangVersion>12</LangVersion>
         <Nullable>enable</Nullable>
+        <IsRoslynComponent>true</IsRoslynComponent>
         <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
         <RootNamespace>Minerals.AutoCQRS</RootNamespace>
+        <IncludeBuildOutput>true</IncludeBuildOutput>
+        <IsPackable>true</IsPackable>
     </PropertyGroup>
 
     <PropertyGroup>
@@ -25,7 +28,6 @@
         <PackageTags>cqrs, pattern, ddd, dependency, injection, di, interfaces, command, query, commands, queries</PackageTags>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageReleaseNotes>First release</PackageReleaseNotes>
-        <IsPackable>true</IsPackable>
     </PropertyGroup>
 
     <PropertyGroup>
@@ -39,15 +41,14 @@
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <EnablePackageValidation>true</EnablePackageValidation>
         <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
-        <IncludeBuildOutput>true</IncludeBuildOutput>
         <Optimize>true</Optimize>
     </PropertyGroup>
 
     <ItemGroup>
         <None Include="README.md" Pack="true" PackagePath="" />
         <None Include="..\LICENSE" Pack="true" PackagePath="" />
-        <None Include="$(PKGMinerals_CodeBuilder)\lib\netstandard2.0\Minerals.CodeBuilder.dll" Pack="true" Visible="false" PackagePath="analyzers\dotnet\cs" />
         <None Include="..\Minerals.AutoCQRS.Generators\bin\$(Configuration)\netstandard2.0\Minerals.AutoCQRS.Generators.dll" Pack="true" PackagePath="analyzers\dotnet\cs" />
+        <None Include="$(PKGMinerals_CodeBuilder)\lib\netstandard2.0\Minerals.CodeBuilder.dll" Pack="true" Visible="false" PackagePath="analyzers\dotnet\cs" />
     </ItemGroup>
 
     <ItemGroup>

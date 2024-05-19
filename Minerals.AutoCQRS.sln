@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Minerals.AutoCQRS.Generator
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Minerals.AutoCQRS.Tests", "Minerals.AutoCQRS.Tests\Minerals.AutoCQRS.Tests.csproj", "{214F4AF3-BAF1-4B23-A06B-C431C061DD65}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Minerals.AutoCQRS.Benchmarks", "Minerals.AutoCQRS.Benchmarks\Minerals.AutoCQRS.Benchmarks.csproj", "{06E84941-8EC5-4B78-84F7-8751F5E65893}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{214F4AF3-BAF1-4B23-A06B-C431C061DD65}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{214F4AF3-BAF1-4B23-A06B-C431C061DD65}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{214F4AF3-BAF1-4B23-A06B-C431C061DD65}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06E84941-8EC5-4B78-84F7-8751F5E65893}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06E84941-8EC5-4B78-84F7-8751F5E65893}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06E84941-8EC5-4B78-84F7-8751F5E65893}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06E84941-8EC5-4B78-84F7-8751F5E65893}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
