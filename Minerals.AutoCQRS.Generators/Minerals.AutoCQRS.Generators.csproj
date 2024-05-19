@@ -23,10 +23,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <!--//TODO: Fix this -->
-        <PackageReference Include="Minerals.CodeBuilder" Version="0.*" />
-        <PackageReference Include="Microsoft.CodeAnalysis" Version="4.*" PrivateAssets="all" />
-        <PackageReference Include="Microsoft.Bcl.HashCode" Version="1.1.*" PrivateAssets="all" />
+        <PackageReference Include="Minerals.CodeBuilder" Version="0.*" PrivateAssets="all" />
+        <PackageReference Include="Microsoft.CodeAnalysis" Version="4.*" />
+        <PackageReference Include="Microsoft.Bcl.HashCode" Version="1.1.*" />
         <PackageReference Update="NETStandard.Library" />
     </ItemGroup>
 
