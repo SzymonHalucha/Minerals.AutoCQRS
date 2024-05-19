@@ -13,11 +13,20 @@ namespace Minerals.AutoCQRS
     [global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     public static class ServiceCollectionExtensions
     {
-        public static global::Microsoft.Extensions.DependencyInjection.IServiceCollection AddCommandsAndQueries(this global::Microsoft.Extensions.DependencyInjection.IServiceCollection collection)
+        public static global::Microsoft.Extensions.DependencyInjection.IServiceCollection AddCommandsAndQueries(this global::Microsoft.Extensions.DependencyInjection.IServiceCollection collection, global::System.Action<global::Microsoft.Extensions.DependencyInjection.IServiceCollection, global::System.Type> injectPolicy = null)
         {
+            if (injectPolicy is null)
+            {
+                injectPolicy = DefaultInjectPolicy;
+            }
             collection.TryAddSingleton<global::Minerals.AutoCQRS.Interfaces.ICommandDispatcher, global::Minerals.AutoCQRS.CommandDispatcher>();
             collection.TryAddSingleton<global::Minerals.AutoCQRS.Interfaces.IQueryDispatcher, global::Minerals.AutoCQRS.QueryDispatcher>();
             return collection;
+        }
+
+        private static void DefaultInjectPolicy(global::Microsoft.Extensions.DependencyInjection.IServiceCollection collection, global::System.Type serviceType)
+        {
+            collection.AddSingleton(serviceType);
         }
     }
 }
