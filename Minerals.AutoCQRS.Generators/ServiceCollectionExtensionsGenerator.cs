@@ -35,7 +35,6 @@ namespace Minerals.AutoCQRS.Generators
                 return current.Interfaces.Any(x =>
                 {
                     return (x.Name.Equals("ICommandHandler") || x.Name.Equals("IQueryHandler"))
-                        && x.ContainingNamespace.Name.Equals("Interfaces")
                         && x.ContainingNamespace.ContainingNamespace.Name.Equals(nameof(AutoCQRS))
                         && x.ContainingNamespace.ContainingNamespace.ContainingNamespace.Name.Equals(nameof(Minerals));
                 });
@@ -90,8 +89,8 @@ namespace Minerals.AutoCQRS.Generators
                 .WriteLine("injectPolicy = DefaultInjectPolicy;")
                 .CloseBlock();
 
-            builder.WriteLine("collection.TryAddSingleton<global::Minerals.AutoCQRS.Interfaces.ICommandDispatcher, global::Minerals.AutoCQRS.CommandDispatcher>();");
-            builder.WriteLine("collection.TryAddSingleton<global::Minerals.AutoCQRS.Interfaces.IQueryDispatcher, global::Minerals.AutoCQRS.QueryDispatcher>();");
+            builder.WriteLine("collection.TryAddSingleton<global::Minerals.AutoCQRS.ICommandDispatcher, global::Minerals.AutoCQRS.CommandDispatcher>();");
+            builder.WriteLine("collection.TryAddSingleton<global::Minerals.AutoCQRS.IQueryDispatcher, global::Minerals.AutoCQRS.QueryDispatcher>();");
 
             foreach (var name in names)
             {
