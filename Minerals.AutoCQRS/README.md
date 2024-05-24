@@ -18,7 +18,7 @@ Add the Minerals.AutoCQRS nuget package to your C# project using the following m
 ### 1. Project file definition
 
 ```xml
-<PackageReference Include="Minerals.AutoCQRS" Version="0.1.0" />
+<PackageReference Include="Minerals.AutoCQRS" Version="0.2.0" />
 ```
 
 ### 2. dotnet command
@@ -60,6 +60,22 @@ namespace Minerals.Examples
         }
     }
 }
+```
+
+Generic equivalent of the ICommand and IQuery:
+
+```csharp
+    public class ExampleCommand : Minerals.AutoCQRS.Interfaces.ICommand<int>
+    {
+        public int Id { get; }
+        // ...
+    }
+
+    public class ExampleQuery : Minerals.AutoCQRS.Interfaces.IQuery<int>
+    {
+        public int Id { get; }
+        // ...
+    }
 ```
 
 ### Dependency Registration

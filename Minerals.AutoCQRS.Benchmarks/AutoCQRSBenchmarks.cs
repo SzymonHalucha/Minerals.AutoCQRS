@@ -13,7 +13,7 @@ namespace Minerals.AutoCQRS.Benchmarks
         public BenchmarkGeneration CommandGenerationDouble { get; set; } = default!;
         public BenchmarkGeneration CommandAndQueryGenerationDouble { get; set; } = default!;
 
-        private const string _withoutInterfaces = """
+        private const string s_withoutInterfaces = """
         namespace Minerals.Examples
         {
             public class ExampleCommand
@@ -44,7 +44,7 @@ namespace Minerals.AutoCQRS.Benchmarks
         }
         """;
 
-        private const string _withQueryInterfaces = """
+        private const string s_withQueryInterfaces = """
         namespace Minerals.Examples
         {
             public class ExampleCommand
@@ -75,7 +75,7 @@ namespace Minerals.AutoCQRS.Benchmarks
         }
         """;
 
-        private const string _withCommandInterfaces = """
+        private const string s_withCommandInterfaces = """
         namespace Minerals.Examples
         {
             public class ExampleCommand : Minerals.AutoCQRS.Interfaces.ICommand
@@ -106,7 +106,7 @@ namespace Minerals.AutoCQRS.Benchmarks
         }
         """;
 
-        private const string _withCommandAndQueryInterfaces = """
+        private const string s_withCommandAndQueryInterfaces = """
         namespace Minerals.Examples
         {
             public class ExampleCommand : Minerals.AutoCQRS.Interfaces.ICommand
@@ -151,47 +151,47 @@ namespace Minerals.AutoCQRS.Benchmarks
             );
             Baseline = BenchmarkGenerationExtensions.CreateGeneration
             (
-                _withoutInterfaces,
+                s_withoutInterfaces,
                 references
             );
             QueryGeneration = BenchmarkGenerationExtensions.CreateGeneration
             (
-                _withQueryInterfaces,
+                s_withQueryInterfaces,
                 new ServiceCollectionExtensionsGenerator(),
                 references
             );
             CommandGeneration = BenchmarkGenerationExtensions.CreateGeneration
             (
-                _withCommandInterfaces,
+                s_withCommandInterfaces,
                 new ServiceCollectionExtensionsGenerator(),
                 references
             );
             CommandAndQueryGeneration = BenchmarkGenerationExtensions.CreateGeneration
             (
-                _withCommandAndQueryInterfaces,
+                s_withCommandAndQueryInterfaces,
                 new ServiceCollectionExtensionsGenerator(),
                 references
             );
             BaselineDouble = BenchmarkGenerationExtensions.CreateGeneration
             (
-                _withoutInterfaces,
+                s_withoutInterfaces,
                 references
             );
             QueryGenerationDouble = BenchmarkGenerationExtensions.CreateGeneration
             (
-                _withQueryInterfaces,
+                s_withQueryInterfaces,
                 new ServiceCollectionExtensionsGenerator(),
                 references
             );
             CommandGenerationDouble = BenchmarkGenerationExtensions.CreateGeneration
             (
-                _withCommandInterfaces,
+                s_withCommandInterfaces,
                 new ServiceCollectionExtensionsGenerator(),
                 references
             );
             CommandAndQueryGenerationDouble = BenchmarkGenerationExtensions.CreateGeneration
             (
-                _withCommandAndQueryInterfaces,
+                s_withCommandAndQueryInterfaces,
                 new ServiceCollectionExtensionsGenerator(),
                 references
             );

@@ -13,7 +13,7 @@
     </PropertyGroup>
 
     <PropertyGroup>
-        <Version>0.1.0</Version>
+        <Version>0.2.0</Version>
         <Title>AutoCQRS</Title>
         <Authors>Szymon Hałucha</Authors>
         <Product>AutoCQRS</Product>
@@ -27,7 +27,7 @@
         <PackageProjectUrl>https://github.com/SzymonHalucha/Minerals.AutoCQRS</PackageProjectUrl>
         <PackageTags>cqrs, pattern, ddd, dependency, injection, di, interfaces, command, query, commands, queries</PackageTags>
         <PackageReadmeFile>README.md</PackageReadmeFile>
-        <PackageReleaseNotes>First release</PackageReleaseNotes>
+        <PackageReleaseNotes>Added generic equivalent of the ICommand and IQuery</PackageReleaseNotes>
     </PropertyGroup>
 
     <PropertyGroup>

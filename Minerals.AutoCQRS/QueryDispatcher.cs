@@ -1,6 +1,6 @@
 namespace Minerals.AutoCQRS
 {
-    public class QueryDispatcher(IServiceProvider provider) : IQueryDispatcher
+    public partial class QueryDispatcher(IServiceProvider provider) : IQueryDispatcher
     {
         private readonly IServiceProvider _services = provider;
 
