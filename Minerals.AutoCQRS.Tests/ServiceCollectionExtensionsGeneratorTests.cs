@@ -9,7 +9,7 @@ namespace Minerals.AutoCQRS.Tests
             (
                 typeof(object),
                 typeof(CodeBuilder),
-                typeof(Interfaces.ICommandHandler<,>),
+                typeof(ICommandHandler<,>),
                 typeof(ServiceCollectionExtensionsGenerator),
                 typeof(Assembly)
             );
@@ -77,7 +77,7 @@ namespace Minerals.AutoCQRS.Tests
             namespace TestNamespace2
             {
                 using Examples;
-                
+
                 public class ExampleCommandHandler2 : Minerals.AutoCQRS.Interfaces.ICommandHandler<ExampleCommand, int>
                 {
                     public Task<int> Handle(ExampleCommand command, CancellationToken cancellation)

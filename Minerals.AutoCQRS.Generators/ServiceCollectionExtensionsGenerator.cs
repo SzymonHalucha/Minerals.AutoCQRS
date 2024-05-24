@@ -1,7 +1,7 @@
 namespace Minerals.AutoCQRS.Generators
 {
     [Generator]
-    public class ServiceCollectionExtensionsGenerator : IIncrementalGenerator
+    public sealed class ServiceCollectionExtensionsGenerator : IIncrementalGenerator
     {
         public void Initialize(IncrementalGeneratorInitializationContext context)
         {

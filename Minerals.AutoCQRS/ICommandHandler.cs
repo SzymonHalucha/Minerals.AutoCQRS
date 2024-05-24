@@ -1,4 +1,4 @@
-namespace Minerals.AutoCQRS.Interfaces
+namespace Minerals.AutoCQRS
 {
     public partial interface ICommandHandler<in TCommand, TResult> where TCommand : ICommand, new()
     {

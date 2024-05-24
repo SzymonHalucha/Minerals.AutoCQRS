@@ -1,4 +1,4 @@
-namespace Minerals.AutoCQRS.Interfaces
+namespace Minerals.AutoCQRS
 {
     public partial interface IQueryHandler<in TQuery, TResult> where TQuery : IQuery, new()
     {

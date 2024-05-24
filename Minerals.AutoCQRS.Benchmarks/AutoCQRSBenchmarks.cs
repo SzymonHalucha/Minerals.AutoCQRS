@@ -1,5 +1,3 @@
-using Minerals.AutoCQRS.Interfaces;
-
 namespace Minerals.AutoCQRS.Benchmarks
 {
     public class AutoCQRSBenchmarks
