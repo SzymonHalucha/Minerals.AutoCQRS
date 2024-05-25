@@ -1,16 +1,16 @@
 namespace Minerals.AutoCQRS.Tests
 {
     [TestClass]
-    public class ServiceCollectionExtensionsGeneratorTests : VerifyBase
+    public class IServiceCollectionExtensionsGeneratorTests : VerifyBase
     {
-        public ServiceCollectionExtensionsGeneratorTests()
+        public IServiceCollectionExtensionsGeneratorTests()
         {
             var references = VerifyExtensions.GetAppReferences
             (
                 typeof(object),
                 typeof(CodeBuilder),
                 typeof(ICommandHandler<,>),
-                typeof(ServiceCollectionExtensionsGenerator),
+                typeof(IServiceCollectionExtensionsGenerator),
                 typeof(Assembly)
             );
             VerifyExtensions.Initialize(references);
@@ -28,7 +28,7 @@ namespace Minerals.AutoCQRS.Tests
                 }
             }
             """;
-            return this.VerifyIncrementalGenerators(source, new ServiceCollectionExtensionsGenerator());
+            return this.VerifyIncrementalGenerators(source, new IServiceCollectionExtensionsGenerator());
         }
 
         [TestMethod]
@@ -51,7 +51,7 @@ namespace Minerals.AutoCQRS.Tests
                 }
             }
             """;
-            return this.VerifyIncrementalGenerators(source, new ServiceCollectionExtensionsGenerator());
+            return this.VerifyIncrementalGenerators(source, new IServiceCollectionExtensionsGenerator());
         }
 
         [TestMethod]
@@ -100,7 +100,7 @@ namespace Minerals.AutoCQRS.Tests
                 }
             }
             """;
-            return this.VerifyIncrementalGenerators(source, new ServiceCollectionExtensionsGenerator());
+            return this.VerifyIncrementalGenerators(source, new IServiceCollectionExtensionsGenerator());
         }
 
         [TestMethod]
@@ -139,7 +139,7 @@ namespace Minerals.AutoCQRS.Tests
                 }
             }
             """;
-            return this.VerifyIncrementalGenerators(source, new ServiceCollectionExtensionsGenerator());
+            return this.VerifyIncrementalGenerators(source, new IServiceCollectionExtensionsGenerator());
         }
 
         [TestMethod]
@@ -162,7 +162,7 @@ namespace Minerals.AutoCQRS.Tests
                 }
             }
             """;
-            return this.VerifyIncrementalGenerators(source, new ServiceCollectionExtensionsGenerator());
+            return this.VerifyIncrementalGenerators(source, new IServiceCollectionExtensionsGenerator());
         }
     }
 }

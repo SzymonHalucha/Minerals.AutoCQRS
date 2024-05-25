@@ -143,7 +143,7 @@ namespace Minerals.AutoCQRS.Benchmarks
             (
                 typeof(object),
                 typeof(IQueryDispatcher),
-                typeof(ServiceCollectionExtensionsGenerator),
+                typeof(IServiceCollectionExtensionsGenerator),
 
                 typeof(CodeBuilder)
             );
@@ -155,19 +155,19 @@ namespace Minerals.AutoCQRS.Benchmarks
             QueryGeneration = BenchmarkGenerationExtensions.CreateGeneration
             (
                 s_withQueryInterfaces,
-                new ServiceCollectionExtensionsGenerator(),
+                new IServiceCollectionExtensionsGenerator(),
                 references
             );
             CommandGeneration = BenchmarkGenerationExtensions.CreateGeneration
             (
                 s_withCommandInterfaces,
-                new ServiceCollectionExtensionsGenerator(),
+                new IServiceCollectionExtensionsGenerator(),
                 references
             );
             CommandAndQueryGeneration = BenchmarkGenerationExtensions.CreateGeneration
             (
                 s_withCommandAndQueryInterfaces,
-                new ServiceCollectionExtensionsGenerator(),
+                new IServiceCollectionExtensionsGenerator(),
                 references
             );
             BaselineDouble = BenchmarkGenerationExtensions.CreateGeneration
@@ -178,19 +178,19 @@ namespace Minerals.AutoCQRS.Benchmarks
             QueryGenerationDouble = BenchmarkGenerationExtensions.CreateGeneration
             (
                 s_withQueryInterfaces,
-                new ServiceCollectionExtensionsGenerator(),
+                new IServiceCollectionExtensionsGenerator(),
                 references
             );
             CommandGenerationDouble = BenchmarkGenerationExtensions.CreateGeneration
             (
                 s_withCommandInterfaces,
-                new ServiceCollectionExtensionsGenerator(),
+                new IServiceCollectionExtensionsGenerator(),
                 references
             );
             CommandAndQueryGenerationDouble = BenchmarkGenerationExtensions.CreateGeneration
             (
                 s_withCommandAndQueryInterfaces,
-                new ServiceCollectionExtensionsGenerator(),
+                new IServiceCollectionExtensionsGenerator(),
                 references
             );
             BaselineDouble.RunAndSaveGeneration();

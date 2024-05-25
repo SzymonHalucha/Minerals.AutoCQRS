@@ -1,7 +1,7 @@
 namespace Minerals.AutoCQRS.Generators
 {
     [Generator]
-    public sealed class ServiceCollectionExtensionsGenerator : IIncrementalGenerator
+    public sealed class IServiceCollectionExtensionsGenerator : IIncrementalGenerator
     {
         public void Initialize(IncrementalGeneratorInitializationContext context)
         {
@@ -15,7 +15,7 @@ namespace Minerals.AutoCQRS.Generators
 
             context.RegisterSourceOutput(collected, static (ctx, collectedTypeNames) =>
             {
-                ctx.AddSource("ServiceCollectionExtensions.g.cs", GenerateStaticClass(collectedTypeNames));
+                ctx.AddSource("IServiceCollectionExtensions.g.cs", GenerateStaticClass(collectedTypeNames));
             });
         }
 
@@ -35,8 +35,8 @@ namespace Minerals.AutoCQRS.Generators
                 return current.Interfaces.Any(x =>
                 {
                     return (x.Name.Equals("ICommandHandler") || x.Name.Equals("IQueryHandler"))
-                        && x.ContainingNamespace.ContainingNamespace.Name.Equals(nameof(AutoCQRS))
-                        && x.ContainingNamespace.ContainingNamespace.ContainingNamespace.Name.Equals(nameof(Minerals));
+                        && x.ContainingNamespace.Name.Equals(nameof(AutoCQRS))
+                        && x.ContainingNamespace.ContainingNamespace.Name.Equals(nameof(Minerals));
                 });
             }
             return false;
@@ -73,7 +73,7 @@ namespace Minerals.AutoCQRS.Generators
 
         private static void AppendStaticClassHeader(CodeBuilder builder)
         {
-            builder.WriteLine("public static class ServiceCollectionExtensions")
+            builder.WriteLine("public static class AddCommandsAndQueriesExtensions")
                 .OpenBlock();
         }
 
