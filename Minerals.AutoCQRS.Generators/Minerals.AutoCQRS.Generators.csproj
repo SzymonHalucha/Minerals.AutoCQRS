@@ -30,8 +30,10 @@
 
     <ItemGroup>
         <PackageReference Include="Minerals.CodeBuilder" Version="0.*" GeneratePathProperty="true" PrivateAssets="all" />
+        <PackageReference Include="Minerals.StringCases" Version="0.*" GeneratePathProperty="true" PrivateAssets="all" />
         <PackageReference Include="Microsoft.CodeAnalysis" Version="4.*" />
-        <PackageReference Include="Microsoft.Bcl.HashCode" Version="1.1.*" />
+        <PackageReference Include="Microsoft.Bcl.HashCode" Version="1.*" />
+        <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="8.*" />
         <PackageReference Update="NETStandard.Library" />
     </ItemGroup>
 

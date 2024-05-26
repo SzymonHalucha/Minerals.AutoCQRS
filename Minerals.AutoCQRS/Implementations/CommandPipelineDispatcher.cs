@@ -9,7 +9,7 @@ namespace Minerals.AutoCQRS
             where TResult : notnull
         {
             List<TResult> results = [];
-            IAsyncEnumerable<TResult> enumerable = _provider.GetRequiredService<ICommandPipelineHandler<TCommand, TResult>>().Handle(command, cancellation);
+            IAsyncEnumerable<TResult> enumerable = _provider.GetRequiredService<ICommandPipeline<TCommand, TResult>>().Handle(command, cancellation);
             await foreach (var item in enumerable)
             {
                 results.Add(item);
