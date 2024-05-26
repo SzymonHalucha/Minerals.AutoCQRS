@@ -10,11 +10,11 @@ namespace Minerals.AutoCQRS
             return _provider.GetRequiredService<ICommandHandler<TCommand>>().Handle(command, cancellation);
         }
 
-        public Task<TResult> Dispatch<TCommand, TResult>(TCommand command, CancellationToken cancellation)
-            where TCommand : ICommand, new()
+        public Task<TResult> Dispatch<TResult, TCommand>(TCommand command, CancellationToken cancellation)
             where TResult : notnull
+            where TCommand : ICommand, new()
         {
-            return _provider.GetRequiredService<ICommandHandler<TCommand, TResult>>().Handle(command, cancellation);
+            return _provider.GetRequiredService<ICommandHandler<TResult, TCommand>>().Handle(command, cancellation);
         }
     }
 }

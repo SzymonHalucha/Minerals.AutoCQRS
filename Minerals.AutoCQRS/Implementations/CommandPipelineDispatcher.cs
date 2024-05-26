@@ -4,12 +4,12 @@ namespace Minerals.AutoCQRS
     {
         private readonly IServiceProvider _provider = provider;
 
-        public async Task<List<TResult>> Dispatch<TCommand, TResult>(TCommand command, CancellationToken cancellation)
-            where TCommand : ICommand, new()
+        public async Task<List<TResult>> Dispatch<TResult, TCommand>(TCommand command, CancellationToken cancellation)
             where TResult : notnull
+            where TCommand : ICommand, new()
         {
             List<TResult> results = [];
-            IAsyncEnumerable<TResult> enumerable = _provider.GetRequiredService<ICommandPipeline<TCommand, TResult>>().Handle(command, cancellation);
+            IAsyncEnumerable<TResult> enumerable = _provider.GetRequiredService<ICommandPipeline<TResult, TCommand>>().Handle(command, cancellation);
             await foreach (var item in enumerable)
             {
                 results.Add(item);
