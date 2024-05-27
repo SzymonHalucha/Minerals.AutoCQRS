@@ -9,7 +9,7 @@ namespace Minerals.AutoCQRS.Tests
             (
                 typeof(object),
                 typeof(CodeBuilder),
-                typeof(ICommandHandler<,>),
+                typeof(ICommand),
                 typeof(IServiceCollectionExtensionsGenerator),
                 typeof(Assembly)
             );
@@ -37,12 +37,12 @@ namespace Minerals.AutoCQRS.Tests
             const string source = """
             namespace Examples
             {
-                public class ExampleCommand : Minerals.AutoCQRS.Interfaces.ICommand
+                public class ExampleCommand : Minerals.AutoCQRS.ICommand
                 {
 
                 }
 
-                public class ExampleCommandHandler : Minerals.AutoCQRS.Interfaces.ICommandHandler<ExampleCommand, int>
+                public class ExampleCommandHandler : Minerals.AutoCQRS.ICommandHandler<ExampleCommand, int>
                 {
                     public Task<int> Handle(ExampleCommand command, CancellationToken cancellation)
                     {
@@ -60,12 +60,12 @@ namespace Minerals.AutoCQRS.Tests
             const string source = """
             namespace Examples
             {
-                public class ExampleCommand : Minerals.AutoCQRS.Interfaces.ICommand
+                public class ExampleCommand : Minerals.AutoCQRS.ICommand
                 {
 
                 }
 
-                public class ExampleCommandHandler1 : Minerals.AutoCQRS.Interfaces.ICommandHandler<ExampleCommand, int>
+                public class ExampleCommandHandler1 : Minerals.AutoCQRS.ICommandHandler<ExampleCommand, int>
                 {
                     public Task<int> Handle(ExampleCommand command, CancellationToken cancellation)
                     {
@@ -78,7 +78,7 @@ namespace Minerals.AutoCQRS.Tests
             {
                 using Examples;
 
-                public class ExampleCommandHandler2 : Minerals.AutoCQRS.Interfaces.ICommandHandler<ExampleCommand, int>
+                public class ExampleCommandHandler2 : Minerals.AutoCQRS.ICommandHandler<ExampleCommand, int>
                 {
                     public Task<int> Handle(ExampleCommand command, CancellationToken cancellation)
                     {
@@ -91,7 +91,7 @@ namespace Minerals.AutoCQRS.Tests
             {
                 using Examples;
 
-                public class ExampleCommandHandler3 : Minerals.AutoCQRS.Interfaces.ICommandHandler<ExampleCommand, int>
+                public class ExampleCommandHandler3 : Minerals.AutoCQRS.ICommandHandler<ExampleCommand, int>
                 {
                     public Task<int> Handle(ExampleCommand command, CancellationToken cancellation)
                     {
@@ -109,12 +109,12 @@ namespace Minerals.AutoCQRS.Tests
             const string source = """
             namespace Examples0
             {
-                public class ExampleCommand : Minerals.AutoCQRS.Interfaces.ICommand
+                public class ExampleCommand : Minerals.AutoCQRS.ICommand
                 {
 
                 }
 
-                public class ExampleCommandHandler : Minerals.AutoCQRS.Interfaces.ICommandHandler<ExampleCommand, int>
+                public class ExampleCommandHandler : Minerals.AutoCQRS.ICommandHandler<ExampleCommand, int>
                 {
                     public Task<int> Handle(ExampleCommand command, CancellationToken cancellation)
                     {
@@ -125,12 +125,12 @@ namespace Minerals.AutoCQRS.Tests
 
             namespace Examples1
             {
-                public class ExampleQuery : Minerals.AutoCQRS.Interfaces.IQuery
+                public class ExampleQuery : Minerals.AutoCQRS.IQuery
                 {
 
                 }
 
-                public class ExampleQueryHandler : Minerals.AutoCQRS.Interfaces.IQueryHandler<ExampleQuery, int>
+                public class ExampleQueryHandler : Minerals.AutoCQRS.IQueryHandler<ExampleQuery, int>
                 {
                     public Task<int> Handle(ExampleQuery query, CancellationToken cancellation)
                     {
@@ -148,12 +148,12 @@ namespace Minerals.AutoCQRS.Tests
             const string source = """
             namespace Examples
             {
-                public class ExampleQuery : Minerals.AutoCQRS.Interfaces.IQuery
+                public class ExampleQuery : Minerals.AutoCQRS.IQuery
                 {
 
                 }
 
-                public class ExampleQueryHandler : Minerals.AutoCQRS.Interfaces.IQueryHandler<ExampleQuery, int>
+                public class ExampleQueryHandler : Minerals.AutoCQRS.IQueryHandler<ExampleQuery, int>
                 {
                     public Task<int> Handle(ExampleQuery query, CancellationToken cancellation)
                     {
@@ -163,6 +163,38 @@ namespace Minerals.AutoCQRS.Tests
             }
             """;
             return this.VerifyIncrementalGenerators(source, new IServiceCollectionExtensionsGenerator());
+        }
+
+        [TestMethod]
+        public Task CommandPipelineTwoHandlers_ShouldGenerate()
+        {
+            const string source = """
+            using Minerals.AutoCQRS;
+
+            namespace Examples
+            {
+                public class ExampleCommand : ICommand;
+
+                public class ExampleCommandHandler1 : ICommandHandler<ExampleCommand, int>
+                {
+                    public Task<int> Handle(ExampleCommand command, CancellationToken cancellation)
+                    {
+                        return Task.FromResult<int>(default!);
+                    }
+                }
+
+                public class ExampleCommandHandler2 : ICommandHandler<ExampleCommand, int>
+                {
+                    public Task<int> Handle(ExampleCommand command, CancellationToken cancellation)
+                    {
+                        return Task.FromResult<int>(default!);
+                    }
+                }
+
+                public partial class ExampleCommandPipeline : ICommandPipeline<ExampleCommand, int, ExampleCommandHandler1, ExampleCommandHandler2>;
+            }
+            """;
+            return this.VerifyIncrementalGenerators(source, new IServiceCollectionExtensionsGenerator(), [new CommandPipelineGenerator()]);
         }
     }
 }

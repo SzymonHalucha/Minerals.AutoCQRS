@@ -33,12 +33,9 @@ namespace Minerals.AutoCQRS.Generators
             var notNullHandlers = handlers.Select((x, _) => (HandlerNameObject)x!);
 
             var collectedPipelines = notNullPipelines.Collect();
+            var collectedHandlers = notNullHandlers.Collect();
 
-            var handlersToCheck = notNullHandlers.Combine(collectedPipelines);
-            var checkedHandlers = handlersToCheck.Where(IsNotPipelineHandler);
-            var collectedCheckedHandlers = checkedHandlers.Select((x, _) => x.Left).Collect();
-
-            var combinedAll = collectedCheckedHandlers.Combine(collectedPipelines);
+            var combinedAll = collectedHandlers.Combine(collectedPipelines);
 
             context.RegisterSourceOutput(combinedAll, static (ctx, collected) =>
             {
@@ -86,17 +83,6 @@ namespace Minerals.AutoCQRS.Generators
                 return (x.Name.Equals("ICommandHandler") || x.Name.Equals("IQueryHandler"))
                     && x.ContainingNamespace.Name.Equals(nameof(AutoCQRS))
                     && x.ContainingNamespace.ContainingNamespace.Name.Equals(nameof(Minerals));
-            });
-        }
-
-        private bool IsNotPipelineHandler((HandlerNameObject Left, ImmutableArray<PipelineNameObject> Right) item)
-        {
-            return !item.Right.Any(x =>
-            {
-                return x.TypeArguments.Any(y =>
-                {
-                    return y.FullTypeName.Equals(item.Left.FullTypeName);
-                });
             });
         }
 
