@@ -1,28 +1,64 @@
-using Minerals.StringCases;
-
 namespace Minerals.AutoCQRS.Generators.Objects
 {
-    public readonly struct TypeArgumentObject(string typeName, string fullTypeName) : IEquatable<TypeArgumentObject>
+    public record TypeArgumentObject : NameObject
     {
-        public string CamelCaseTypeName { get; } = typeName.ToCamelCase();
-        public string FullTypeName { get; } = fullTypeName;
+        public NameObject[] ConstructorArguments { get; }
 
-        public bool Equals(TypeArgumentObject other)
+        public TypeArgumentObject(ITypeSymbol symbol) : base
+        (
+            GetTypeNameOf(symbol),
+            GetFullTypeNameOf(symbol),
+            GetInterfaceFullTypeNameOf(symbol)
+        )
         {
-            return other.CamelCaseTypeName.Equals(CamelCaseTypeName)
-                && other.FullTypeName.Equals(FullTypeName);
+            ConstructorArguments = GetConstructorArgumentsOf((INamedTypeSymbol)symbol);
         }
 
-        public override bool Equals(object? obj)
+        public virtual bool Equals(TypeArgumentObject other)
         {
-            return obj is TypeArgumentObject other
-                && other.CamelCaseTypeName.Equals(CamelCaseTypeName)
-                && other.FullTypeName.Equals(FullTypeName);
+            return other.FullTypeName.Equals(FullTypeName)
+                && other.InterfaceFullTypeName.Equals(InterfaceFullTypeName)
+                && other.ConstructorArguments.SequenceEqual(ConstructorArguments);
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(CamelCaseTypeName, FullTypeName);
+            return HashCode.Combine(FullTypeName, InterfaceFullTypeName, ConstructorArguments);
+        }
+
+        private static string GetTypeNameOf(ITypeSymbol symbol)
+        {
+            return symbol.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat);
+        }
+
+        private static string GetFullTypeNameOf(ITypeSymbol symbol)
+        {
+            return symbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
+        }
+
+        private static string GetInterfaceFullTypeNameOf(ITypeSymbol symbol)
+        {
+            return symbol.Interfaces.FirstOrDefault(x =>
+            {
+                return (x.Name.Equals("ICommandHandler") || x.Name.Equals("IQueryHandler"))
+                    && x.ContainingNamespace.Name.Equals(nameof(AutoCQRS))
+                    && x.ContainingNamespace.ContainingNamespace.Name.Equals(nameof(Minerals));
+            })?.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat) ?? string.Empty;
+        }
+
+        private static NameObject[] GetConstructorArgumentsOf(INamedTypeSymbol symbol)
+        {
+            return symbol.Constructors.SelectMany(x => x.Parameters)
+                .Where(x => x is not null)
+                .Select(x =>
+                {
+                    return new NameObject
+                    (
+                        x!.Type.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat),
+                        x.Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
+                        string.Empty
+                    );
+                }).ToArray();
         }
     }
 }

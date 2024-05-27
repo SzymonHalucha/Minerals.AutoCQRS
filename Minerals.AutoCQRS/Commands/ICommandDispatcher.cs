@@ -5,8 +5,8 @@ namespace Minerals.AutoCQRS
         public Task Dispatch<TCommand>(TCommand command, CancellationToken cancellation)
             where TCommand : ICommand, new();
 
-        public Task<TResult> Dispatch<TResult, TCommand>(TCommand command, CancellationToken cancellation)
-            where TResult : notnull
-            where TCommand : ICommand, new();
+        public Task<TResult> Dispatch<TCommand, TResult>(TCommand command, CancellationToken cancellation)
+            where TCommand : ICommand, new()
+            where TResult : notnull;
     }
 }

@@ -17,24 +17,30 @@ namespace Minerals.AutoCQRS.Generators
 
         public void Initialize(IncrementalGeneratorInitializationContext context)
         {
-            var founded = context.SyntaxProvider.CreateSyntaxProvider
+            var handlers = context.SyntaxProvider.CreateSyntaxProvider
             (
                 static (x, _) => CheckForInterfaces(x),
-                static (x, _) => x
-            );
+                static (x, _) => GetValidOrNullHandlerNameObject(x)
+            ).Where(x => x is not null);
 
-            var validHandlers = founded.Where(HasValidInterfaceForHandler);
-            validHandlers = validHandlers.Where(HasNoAttribute);
-            var selectedHandlers = validHandlers.Select(GetHandlerObjectForCommandsAndQueries);
-            var collectedHandlers = selectedHandlers.Collect();
+            var pipelines = context.SyntaxProvider.CreateSyntaxProvider
+            (
+                static (x, _) => CheckForInterfaces(x),
+                static (x, _) => GetValidOrNullPipelineNameObject(x)
+            ).Where(x => x is not null);
 
-            var validPipelines = founded.Where(HasValidInterfaceForPipeline);
-            var selectedPipelines = validPipelines.Select(GetHandlerObjectForPipelines);
-            var collectedPipelines = selectedPipelines.Collect();
+            var notNullPipelines = pipelines.Select((x, _) => (PipelineNameObject)x!);
+            var notNullHandlers = handlers.Select((x, _) => (HandlerNameObject)x!);
 
-            var combined = collectedHandlers.Combine(collectedPipelines);
+            var collectedPipelines = notNullPipelines.Collect();
 
-            context.RegisterSourceOutput(combined, static (ctx, collected) =>
+            var handlersToCheck = notNullHandlers.Combine(collectedPipelines);
+            var checkedHandlers = handlersToCheck.Where(IsNotPipelineHandler);
+            var collectedCheckedHandlers = checkedHandlers.Select((x, _) => x.Left).Collect();
+
+            var combinedAll = collectedCheckedHandlers.Combine(collectedPipelines);
+
+            context.RegisterSourceOutput(combinedAll, static (ctx, collected) =>
             {
                 ctx.AddSource
                 (
@@ -51,67 +57,50 @@ namespace Minerals.AutoCQRS.Generators
                 && typeSyntax.BaseList.Types.Count > 0;
         }
 
-        private static bool HasValidInterfaceForHandler(GeneratorSyntaxContext context)
+        private static PipelineNameObject? GetValidOrNullPipelineNameObject(GeneratorSyntaxContext context)
         {
-            return ((ITypeSymbol)context.SemanticModel.GetDeclaredSymbol(context.Node)!)
-                .Interfaces.Any(x =>
+            var symbol = (ITypeSymbol)context.SemanticModel.GetDeclaredSymbol(context.Node)!;
+            return HasValidInterfaceForPipeline(symbol) ? new PipelineNameObject(symbol) : null;
+        }
+
+        private static HandlerNameObject? GetValidOrNullHandlerNameObject(GeneratorSyntaxContext context)
+        {
+            var symbol = (ITypeSymbol)context.SemanticModel.GetDeclaredSymbol(context.Node)!;
+            return HasValidInterfaceForHandler(symbol) ? new HandlerNameObject(symbol) : null;
+        }
+
+        private static bool HasValidInterfaceForPipeline(ITypeSymbol symbol)
+        {
+            return symbol.Interfaces.Any(x =>
+            {
+                return x.Name.Equals("ICommandPipeline")
+                    && x.ContainingNamespace.Name.Equals(nameof(AutoCQRS))
+                    && x.ContainingNamespace.ContainingNamespace.Name.Equals(nameof(Minerals));
+            });
+        }
+
+        private static bool HasValidInterfaceForHandler(ITypeSymbol symbol)
+        {
+            return symbol.Interfaces.Any(x =>
+            {
+                return (x.Name.Equals("ICommandHandler") || x.Name.Equals("IQueryHandler"))
+                    && x.ContainingNamespace.Name.Equals(nameof(AutoCQRS))
+                    && x.ContainingNamespace.ContainingNamespace.Name.Equals(nameof(Minerals));
+            });
+        }
+
+        private bool IsNotPipelineHandler((HandlerNameObject Left, ImmutableArray<PipelineNameObject> Right) item)
+        {
+            return !item.Right.Any(x =>
+            {
+                return x.TypeArguments.Any(y =>
                 {
-                    return (x.Name.Equals("ICommandHandler") || x.Name.Equals("IQueryHandler"))
-                        && x.ContainingNamespace.Name.Equals(nameof(AutoCQRS))
-                        && x.ContainingNamespace.ContainingNamespace.Name.Equals(nameof(Minerals));
+                    return y.FullTypeName.Equals(item.Left.FullTypeName);
                 });
+            });
         }
 
-        //TODO: Implement this...
-        private static bool HasNoAttribute(GeneratorSyntaxContext context)
-        {
-            return false;
-        }
-
-        private static bool HasValidInterfaceForPipeline(GeneratorSyntaxContext context)
-        {
-            return ((ITypeSymbol)context.SemanticModel.GetDeclaredSymbol(context.Node)!)
-                .Interfaces.Any(x =>
-                {
-                    return x.Name.Equals("ICommandPipeline")
-                        && x.ContainingNamespace.Name.Equals(nameof(AutoCQRS))
-                        && x.ContainingNamespace.ContainingNamespace.Name.Equals(nameof(Minerals));
-                });
-        }
-
-        private static HandlerObject GetHandlerObjectForCommandsAndQueries(GeneratorSyntaxContext context, CancellationToken cancellation)
-        {
-            var symbol = context.SemanticModel.GetDeclaredSymbol(context.Node) as ITypeSymbol;
-            var handler = new HandlerObject
-            (
-                symbol!.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
-                symbol!.Interfaces.First(x =>
-                {
-                    return (x.Name.Equals("ICommandHandler") || x.Name.Equals("IQueryHandler"))
-                        && x.ContainingNamespace.Name.Equals(nameof(AutoCQRS))
-                        && x.ContainingNamespace.ContainingNamespace.Name.Equals(nameof(Minerals));
-                }).ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)
-            );
-            return handler;
-        }
-
-        private static HandlerObject GetHandlerObjectForPipelines(GeneratorSyntaxContext context, CancellationToken cancellation)
-        {
-            var symbol = context.SemanticModel.GetDeclaredSymbol(context.Node) as ITypeSymbol;
-            var handler = new HandlerObject
-            (
-                symbol!.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
-                symbol!.Interfaces.First(x =>
-                {
-                    return x.Name.Equals("ICommandPipeline")
-                        && x.ContainingNamespace.Name.Equals(nameof(AutoCQRS))
-                        && x.ContainingNamespace.ContainingNamespace.Name.Equals(nameof(Minerals));
-                }).Interfaces[0].ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)
-            );
-            return handler;
-        }
-
-        private static SourceText GenerateStaticClass(ImmutableArray<HandlerObject> handlers, ImmutableArray<HandlerObject> pipelines)
+        private static SourceText GenerateStaticClass(ImmutableArray<HandlerNameObject> handlers, ImmutableArray<PipelineNameObject> pipelines)
         {
             var builder = new CodeBuilder();
             builder.AddAutoGeneratedHeader(Assembly.GetExecutingAssembly());
@@ -119,8 +108,13 @@ namespace Minerals.AutoCQRS.Generators
 
             builder.AddAutoGeneratedAttributes(typeof(ClassDeclarationSyntax));
             AppendStaticClassHeader(builder);
-            AppendExtensionMethod(builder, handlers, s_handlersDispatchers, "AddCommandsAndQueries");
-            AppendExtensionMethod(builder, pipelines, s_pipelinesDispatchers, "AddCommandsAndQueriesPipelines");
+
+            AppendExtensionMethodHeader(builder, s_handlersDispatchers, "AddCommandsAndQueries");
+            AppendExtensionMethodBodyForHandlers(builder, handlers);
+
+            AppendExtensionMethodHeader(builder, s_pipelinesDispatchers, "AddCommandsAndQueriesPipelines");
+            AppendExtensionMethodBodyForPipelines(builder, pipelines);
+
             AppendDefaultInjectPolicyMethod(builder);
 
             builder.CloseAllBlocks();
@@ -141,7 +135,7 @@ namespace Minerals.AutoCQRS.Generators
                 .OpenBlock();
         }
 
-        private static void AppendExtensionMethod(CodeBuilder builder, ImmutableArray<HandlerObject> items, IEnumerable<string> dispatchers, string methodName)
+        private static void AppendExtensionMethodHeader(CodeBuilder builder, IEnumerable<string> dispatchers, string methodName)
         {
             builder.WriteLine("public static global::Microsoft.Extensions.DependencyInjection.IServiceCollection ")
                 .Write(methodName)
@@ -160,8 +154,11 @@ namespace Minerals.AutoCQRS.Generators
                     .Write(item)
                     .Write(">();");
             }
+        }
 
-            foreach (var item in items)
+        private static void AppendExtensionMethodBodyForHandlers(CodeBuilder builder, ImmutableArray<HandlerNameObject> handlers)
+        {
+            foreach (var item in handlers)
             {
                 builder.WriteLine("injectPolicy.Invoke(collection, typeof(")
                     .Write(item.InterfaceFullTypeName)
@@ -169,7 +166,21 @@ namespace Minerals.AutoCQRS.Generators
                     .Write(item.FullTypeName)
                     .Write("));");
             }
+            builder.WriteLine("return collection;")
+                .CloseBlock()
+                .NewLine();
+        }
 
+        private static void AppendExtensionMethodBodyForPipelines(CodeBuilder builder, ImmutableArray<PipelineNameObject> pipelines)
+        {
+            foreach (var item in pipelines)
+            {
+                builder.WriteLine("injectPolicy.Invoke(collection, typeof(")
+                    .Write(item.InterfaceFullTypeName)
+                    .Write("), typeof(")
+                    .Write(item.FullTypeName)
+                    .Write("));");
+            }
             builder.WriteLine("return collection;")
                 .CloseBlock()
                 .NewLine();

@@ -2,8 +2,8 @@ namespace Minerals.AutoCQRS
 {
     public interface ICommandPipelineDispatcher
     {
-        public Task<List<TResult>> Dispatch<TResult, TCommand>(TCommand command, CancellationToken cancellation)
-            where TResult : notnull
-            where TCommand : ICommand, new();
+        public Task<List<TResult>> Dispatch<TCommand, TResult>(TCommand command, CancellationToken cancellation)
+            where TCommand : ICommand, new()
+            where TResult : notnull;
     }
 }

@@ -1,6 +1,6 @@
 namespace Minerals.AutoCQRS.Generators.Objects
 {
-    public readonly struct CommandPipelineObject : IEquatable<CommandPipelineObject>
+    public readonly struct PipelineObject : IEquatable<PipelineObject>
     {
         public string Name { get; }
         public string Keyword { get; }
@@ -8,41 +8,54 @@ namespace Minerals.AutoCQRS.Generators.Objects
         public string[] AccessModifiers { get; }
         public string[] Modifiers { get; }
         public TypeArgumentObject[] TypeArguments { get; }
+        public ITypeSymbol Symbol { get; }
 
-        public CommandPipelineObject(GeneratorSyntaxContext context)
+        public PipelineObject(GeneratorSyntaxContext context, ITypeSymbol symbol)
         {
             Name = CodeBuilderHelper.GetIdentifierNameOf(context.Node);
             Keyword = GetKeywordOf(context.Node);
             Namespace = CodeBuilderHelper.GetNamespaceOf(context.Node) ?? string.Empty;
             AccessModifiers = CodeBuilderHelper.GetAccessModifiersOf(context.Node)?.ToArray() ?? [];
             Modifiers = CodeBuilderHelper.GetModifiersOf(context.Node).ToArray();
-            TypeArguments = GetTypeArgumentsOf(context);
+            Symbol = symbol;
+            TypeArguments = GetTypeArgumentsOf(Symbol);
         }
 
-        public bool Equals(CommandPipelineObject other)
+        public bool Equals(PipelineObject other)
         {
             return other.Name.Equals(Name)
                 && other.Keyword.Equals(Keyword)
                 && other.Namespace.Equals(Namespace)
                 && other.AccessModifiers.SequenceEqual(AccessModifiers)
                 && other.Modifiers.SequenceEqual(Modifiers)
+                && SymbolEqualityComparer.Default.Equals(other.Symbol, Symbol)
                 && other.TypeArguments.SequenceEqual(TypeArguments);
         }
 
         public override bool Equals(object? obj)
         {
-            return obj is CommandPipelineObject other
+            return obj is PipelineObject other
                 && other.Name.Equals(Name)
                 && other.Keyword.Equals(Keyword)
                 && other.Namespace.Equals(Namespace)
                 && other.AccessModifiers.SequenceEqual(AccessModifiers)
                 && other.Modifiers.SequenceEqual(Modifiers)
+                && SymbolEqualityComparer.Default.Equals(other.Symbol, Symbol)
                 && other.TypeArguments.SequenceEqual(TypeArguments);
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(Name, Keyword, Namespace, AccessModifiers, Modifiers, TypeArguments);
+            return HashCode.Combine
+            (
+                Name,
+                Keyword,
+                Namespace,
+                AccessModifiers,
+                Modifiers,
+                SymbolEqualityComparer.Default.GetHashCode(Symbol),
+                TypeArguments
+            );
         }
 
         private static string GetKeywordOf(SyntaxNode syntax)
@@ -50,14 +63,19 @@ namespace Minerals.AutoCQRS.Generators.Objects
             return syntax is TypeDeclarationSyntax typeSyntax ? typeSyntax.Keyword.ToString() : string.Empty;
         }
 
-        private static TypeArgumentObject[] GetTypeArgumentsOf(GeneratorSyntaxContext context)
+        private static ITypeSymbol GetTypeSymbolOf(GeneratorSyntaxContext context)
         {
-            var symbol = context.SemanticModel.GetDeclaredSymbol(context.Node) as ITypeSymbol;
-            var pipeline = symbol!.Interfaces.First(x => x.Name.Equals("ICommandPipeline"));
-            return pipeline.TypeArguments.Select(x =>
+            return (ITypeSymbol)context.SemanticModel.GetDeclaredSymbol(context.Node)!;
+        }
+
+        private static TypeArgumentObject[] GetTypeArgumentsOf(ITypeSymbol typeSymbol)
+        {
+            return typeSymbol!.Interfaces.First(symbol =>
             {
-                return new TypeArgumentObject(x.Name, x.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat));
-            }).ToArray();
+                return symbol.Name.Equals("ICommandPipeline")
+                    && symbol.ContainingNamespace.Name.Equals(nameof(AutoCQRS))
+                    && symbol.ContainingNamespace.ContainingNamespace.Name.Equals(nameof(Minerals));
+            }).TypeArguments.Select(selected => new TypeArgumentObject(selected)).ToArray();
         }
     }
 }
