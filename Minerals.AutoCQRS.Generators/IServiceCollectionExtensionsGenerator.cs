@@ -12,7 +12,7 @@ namespace Minerals.AutoCQRS.Generators
         private static readonly string[] s_pipelinesDispatchers =
         [
             "global::Minerals.AutoCQRS.ICommandPipelineDispatcher, global::Minerals.AutoCQRS.CommandPipelineDispatcher",
-            // "global::Minerals.AutoCQRS.IQueryPipelineDispatcher, global::Minerals.AutoCQRS.QueryPipelineDispatcher"
+            "global::Minerals.AutoCQRS.IQueryPipelineDispatcher, global::Minerals.AutoCQRS.QueryPipelineDispatcher"
         ];
 
         public void Initialize(IncrementalGeneratorInitializationContext context)

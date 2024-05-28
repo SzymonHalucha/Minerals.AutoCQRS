@@ -40,7 +40,7 @@ namespace Minerals.AutoCQRS.Generators.Objects
         {
             return symbol.Interfaces.First(x =>
             {
-                return x.Name.Equals("ICommandPipeline")
+                return (x.Name.Equals("ICommandPipeline") || x.Name.Equals("IQueryPipeline"))
                     && x.ContainingNamespace.Name.Equals(nameof(AutoCQRS))
                     && x.ContainingNamespace.ContainingNamespace.Name.Equals(nameof(Minerals));
             }).Interfaces[0].ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
@@ -50,7 +50,7 @@ namespace Minerals.AutoCQRS.Generators.Objects
         {
             return typeSymbol!.Interfaces.First(symbol =>
             {
-                return symbol.Name.Equals("ICommandPipeline")
+                return (symbol.Name.Equals("ICommandPipeline") || symbol.Name.Equals("IQueryPipeline"))
                     && symbol.ContainingNamespace.Name.Equals(nameof(AutoCQRS))
                     && symbol.ContainingNamespace.ContainingNamespace.Name.Equals(nameof(Minerals));
             }).TypeArguments

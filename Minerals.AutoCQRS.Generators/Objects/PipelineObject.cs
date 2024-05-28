@@ -72,7 +72,7 @@ namespace Minerals.AutoCQRS.Generators.Objects
         {
             return typeSymbol!.Interfaces.First(symbol =>
             {
-                return symbol.Name.Equals("ICommandPipeline")
+                return (symbol.Name.Equals("ICommandPipeline") || symbol.Name.Equals("IQueryPipeline"))
                     && symbol.ContainingNamespace.Name.Equals(nameof(AutoCQRS))
                     && symbol.ContainingNamespace.ContainingNamespace.Name.Equals(nameof(Minerals));
             }).TypeArguments.Select(selected => new TypeArgumentObject(selected)).ToArray();
