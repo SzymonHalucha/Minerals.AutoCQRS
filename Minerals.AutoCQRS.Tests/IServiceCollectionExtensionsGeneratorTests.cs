@@ -9,6 +9,7 @@ namespace Minerals.AutoCQRS.Tests
             (
                 typeof(object),
                 typeof(CodeBuilder),
+                typeof(StringCases.StringExtensions),
                 typeof(ICommand),
                 typeof(IServiceCollectionExtensionsGenerator),
                 typeof(Assembly)
@@ -194,7 +195,39 @@ namespace Minerals.AutoCQRS.Tests
                 public partial class ExampleCommandPipeline : ICommandPipeline<ExampleCommand, int, ExampleCommandHandler1, ExampleCommandHandler2>;
             }
             """;
-            return this.VerifyIncrementalGenerators(source, new IServiceCollectionExtensionsGenerator(), [new CommandPipelineGenerator()]);
+            return this.VerifyIncrementalGenerators(source, new IServiceCollectionExtensionsGenerator(), [new PipelinesGenerator()]);
+        }
+
+        [TestMethod]
+        public Task QueryPipelineTwoHandlers_ShouldGenerate()
+        {
+            const string source = """
+            using Minerals.AutoCQRS;
+
+            namespace Examples
+            {
+                public class ExampleQuery : IQuery;
+
+                public class ExampleQueryHandler1 : IQueryHandler<ExampleQuery, int>
+                {
+                    public Task<int> Handle(ExampleQuery query, CancellationToken cancellation)
+                    {
+                        return Task.FromResult<int>(default!);
+                    }
+                }
+
+                public class ExampleQueryHandler2 : IQueryHandler<ExampleQuery, int>
+                {
+                    public Task<int> Handle(ExampleQuery query, CancellationToken cancellation)
+                    {
+                        return Task.FromResult<int>(default!);
+                    }
+                }
+
+                public partial class ExampleQueryPipeline : IQueryPipeline<ExampleQuery, int, ExampleQueryHandler1, ExampleQueryHandler2>;
+            }
+            """;
+            return this.VerifyIncrementalGenerators(source, new IServiceCollectionExtensionsGenerator(), [new PipelinesGenerator()]);
         }
     }
 }

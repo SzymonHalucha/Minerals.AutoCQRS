@@ -1,7 +1,7 @@
 namespace Minerals.AutoCQRS.Generators
 {
     [Generator]
-    public sealed class CommandPipelineGenerator : IIncrementalGenerator
+    public sealed class PipelinesGenerator : IIncrementalGenerator
     {
         public void Initialize(IncrementalGeneratorInitializationContext context)
         {
@@ -36,7 +36,7 @@ namespace Minerals.AutoCQRS.Generators
         {
             return symbol.Interfaces.Any(x =>
             {
-                return x.Name.Equals("ICommandPipeline")
+                return (x.Name.Equals(Constants.ICommandPipeline) || x.Name.Equals(Constants.IQueryPipeline))
                     && x.ContainingNamespace.Name.Equals(nameof(AutoCQRS))
                     && x.ContainingNamespace.ContainingNamespace.Name.Equals(nameof(Minerals));
             });
@@ -150,7 +150,7 @@ namespace Minerals.AutoCQRS.Generators
                 .Write(pipelineObj.TypeArguments[1].FullTypeName)
                 .Write("> Handle(")
                 .Write(pipelineObj.TypeArguments[0].FullTypeName)
-                .Write(" command, [global::System.Runtime.CompilerServices.EnumeratorCancellationAttribute]")
+                .Write(" item, [global::System.Runtime.CompilerServices.EnumeratorCancellationAttribute]")
                 .Write(" global::System.Threading.CancellationToken cancellation)")
                 .OpenBlock();
 
@@ -158,7 +158,7 @@ namespace Minerals.AutoCQRS.Generators
             {
                 builder.WriteLine("yield return await _")
                     .Write(arg.CamelCaseTypeName)
-                    .Write(".Handle(command, cancellation);");
+                    .Write(".Handle(item, cancellation);");
             }
 
             builder.CloseBlock();

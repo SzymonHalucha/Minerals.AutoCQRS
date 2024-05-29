@@ -11,3 +11,4 @@ global using Minerals.AutoCQRS.Generators;
 global using Minerals.AutoCQRS.Tests.Utils;
 global using VerifyMSTest;
 global using VerifyTests;
+global using FluentAssertions;

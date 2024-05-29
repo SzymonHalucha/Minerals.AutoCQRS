@@ -40,13 +40,13 @@ dotnet_style_parentheses_in_other_operators = always_for_clarity:suggestion
 dotnet_style_parentheses_in_relational_binary_operators = always_for_clarity:suggestion
 
 # Modifier preferences
-dotnet_style_require_accessibility_modifiers = always
+dotnet_style_require_accessibility_modifiers = always:warning
 
 # Expression-level preferences
 dotnet_style_coalesce_expression = true:suggestion
 dotnet_style_collection_initializer = true:suggestion
 dotnet_style_explicit_tuple_names = true:suggestion
-dotnet_style_namespace_match_folder = true:warning
+dotnet_style_namespace_match_folder = true:suggestion
 dotnet_style_null_propagation = true:suggestion
 dotnet_style_object_initializer = true:suggestion
 dotnet_style_operator_placement_when_wrapping = beginning_of_line:warning
@@ -72,7 +72,7 @@ dotnet_code_quality_unused_parameters = non_public:warning
 dotnet_remove_unnecessary_suppression_exclusions = none:warning
 
 # New line preferences
-dotnet_style_allow_multiple_blank_lines_experimental = false:suggestion
+dotnet_style_allow_multiple_blank_lines_experimental = false:warning
 dotnet_style_allow_statement_immediately_after_block_experimental = true:suggestion
 
 #### C# Coding Conventions ####
@@ -85,12 +85,12 @@ csharp_style_var_when_type_is_apparent = true:slient
 # Expression-bodied members
 csharp_style_expression_bodied_accessors = false:warning
 csharp_style_expression_bodied_constructors = false:warning
-csharp_style_expression_bodied_indexers = when_on_single_line:suggestion
-csharp_style_expression_bodied_lambdas = when_on_single_line:suggestion
+csharp_style_expression_bodied_indexers = when_on_single_line:slient
+csharp_style_expression_bodied_lambdas = when_on_single_line:slient
 csharp_style_expression_bodied_local_functions = false:warning
 csharp_style_expression_bodied_methods = false:warning
 csharp_style_expression_bodied_operators = false:warning
-csharp_style_expression_bodied_properties = when_on_single_line:suggestion
+csharp_style_expression_bodied_properties = when_on_single_line:slient
 
 # Pattern matching preferences
 csharp_style_pattern_matching_over_as_with_null_check = true:warning
@@ -104,7 +104,7 @@ csharp_style_prefer_switch_expression = true:suggestion
 csharp_style_conditional_delegate_call = true:warning
 
 # Modifier preferences
-csharp_prefer_static_local_function = false:suggestion
+csharp_prefer_static_local_function = true:warning
 csharp_preferred_modifier_order = public,private,protected,internal,file,static,extern,new,virtual,abstract,sealed,override,readonly,unsafe,required,volatile,async
 csharp_style_prefer_readonly_struct = true:warning
 csharp_style_prefer_readonly_struct_member = true:warning
@@ -113,7 +113,7 @@ csharp_style_prefer_readonly_struct_member = true:warning
 csharp_prefer_braces = true:warning
 csharp_prefer_simple_using_statement = false:warning
 csharp_style_namespace_declarations = block_scoped:warning
-csharp_style_prefer_method_group_conversion = false:suggestion
+csharp_style_prefer_method_group_conversion = true:suggestion
 csharp_style_prefer_primary_constructors = true:silent
 csharp_style_prefer_top_level_statements = false:warning
 
@@ -217,14 +217,6 @@ dotnet_naming_rule.private_or_internal_field_should_be_underscore_camel_case.sev
 dotnet_naming_rule.private_or_internal_field_should_be_underscore_camel_case.symbols = private_or_internal_field
 dotnet_naming_rule.private_or_internal_field_should_be_underscore_camel_case.style = underscore_camel_case
 
-dotnet_naming_rule.public_static_field_should_be_public_static_pascal_case.severity = warning
-dotnet_naming_rule.public_static_field_should_be_public_static_pascal_case.symbols = public_static_field
-dotnet_naming_rule.public_static_field_should_be_public_static_pascal_case.style = public_static_pascal_case
-
-dotnet_naming_rule.private_static_field_should_be_private_static_camel_case.severity = warning
-dotnet_naming_rule.private_static_field_should_be_private_static_camel_case.symbols = private_static_field
-dotnet_naming_rule.private_static_field_should_be_private_static_camel_case.style = private_static_camel_case
-
 # Symbol specifications
 
 dotnet_naming_symbols.interface.applicable_kinds = interface
@@ -234,10 +226,6 @@ dotnet_naming_symbols.interface.required_modifiers =
 dotnet_naming_symbols.public_or_protected_field.applicable_kinds = field
 dotnet_naming_symbols.public_or_protected_field.applicable_accessibilities = public, protected
 dotnet_naming_symbols.public_or_protected_field.required_modifiers = 
-
-dotnet_naming_symbols.private_static_field.applicable_kinds = field, local
-dotnet_naming_symbols.private_static_field.applicable_accessibilities = internal, private, private_protected, local
-dotnet_naming_symbols.private_static_field.required_modifiers = static
 
 dotnet_naming_symbols.private_or_internal_field.applicable_kinds = field
 dotnet_naming_symbols.private_or_internal_field.applicable_accessibilities = internal, private, private_protected
@@ -254,10 +242,6 @@ dotnet_naming_symbols.non_field_members.required_modifiers =
 dotnet_naming_symbols.async_method.applicable_kinds = method, local_function
 dotnet_naming_symbols.async_method.applicable_accessibilities = *
 dotnet_naming_symbols.async_method.required_modifiers = async
-
-dotnet_naming_symbols.public_static_field.applicable_kinds = field, local
-dotnet_naming_symbols.public_static_field.applicable_accessibilities = public, protected, protected_internal
-dotnet_naming_symbols.public_static_field.required_modifiers = static
 
 # Naming styles
 
@@ -280,13 +264,3 @@ dotnet_naming_style.async_pascal_case.required_prefix =
 dotnet_naming_style.async_pascal_case.required_suffix = Async
 dotnet_naming_style.async_pascal_case.word_separator = 
 dotnet_naming_style.async_pascal_case.capitalization = pascal_case
-
-dotnet_naming_style.private_static_camel_case.required_prefix = s_
-dotnet_naming_style.private_static_camel_case.required_suffix = 
-dotnet_naming_style.private_static_camel_case.word_separator = 
-dotnet_naming_style.private_static_camel_case.capitalization = camel_case
-
-dotnet_naming_style.public_static_pascal_case.required_prefix = S_
-dotnet_naming_style.public_static_pascal_case.required_suffix = 
-dotnet_naming_style.public_static_pascal_case.word_separator = 
-dotnet_naming_style.public_static_pascal_case.capitalization = pascal_case

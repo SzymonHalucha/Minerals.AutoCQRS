@@ -40,7 +40,7 @@ namespace Minerals.AutoCQRS.Generators.Objects
         {
             return symbol.Interfaces.FirstOrDefault(x =>
             {
-                return (x.Name.Equals("ICommandHandler") || x.Name.Equals("IQueryHandler"))
+                return (x.Name.Equals(Constants.ICommandHandler) || x.Name.Equals(Constants.IQueryHandler))
                     && x.ContainingNamespace.Name.Equals(nameof(AutoCQRS))
                     && x.ContainingNamespace.ContainingNamespace.Name.Equals(nameof(Minerals));
             })?.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat) ?? string.Empty;

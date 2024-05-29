@@ -1,9 +1,9 @@
 namespace Minerals.AutoCQRS.Tests
 {
     [TestClass]
-    public class CommandPipelineGeneratorTests : VerifyBase
+    public class PipelinesGeneratorTests : VerifyBase
     {
-        public CommandPipelineGeneratorTests()
+        public PipelinesGeneratorTests()
         {
             var references = VerifyExtensions.GetAppReferences
             (
@@ -11,7 +11,7 @@ namespace Minerals.AutoCQRS.Tests
                 typeof(CodeBuilder),
                 typeof(StringCases.StringExtensions),
                 typeof(ICommand),
-                typeof(IServiceCollectionExtensionsGenerator),
+                typeof(PipelinesGenerator),
                 typeof(Assembly)
             );
             VerifyExtensions.Initialize(references);
@@ -55,7 +55,7 @@ namespace Minerals.AutoCQRS.Tests
                 public partial class TestCommandPipeline : ICommandPipeline<TestCommand, int, TestCommandHandler1, TestCommandHandler2, TestCommandHandler3>;
             }
             """;
-            return this.VerifyIncrementalGenerators(source, new CommandPipelineGenerator());
+            return this.VerifyIncrementalGenerators(source, new PipelinesGenerator());
         }
 
         [TestMethod]
@@ -114,7 +114,107 @@ namespace Minerals.AutoCQRS.Tests
                 public partial class TestCommandPipeline : ICommandPipeline<TestCommand, int, TestCommandHandler1, TestCommandHandler2, TestCommandHandler3>;
             }
             """;
-            return this.VerifyIncrementalGenerators(source, new CommandPipelineGenerator());
+            return this.VerifyIncrementalGenerators(source, new PipelinesGenerator());
+        }
+
+        [TestMethod]
+        public Task OneQueryThreeHandlers_ShouldGenerate()
+        {
+            const string source = """
+            using System.Threading;
+            using Minerals.AutoCQRS;
+
+            namespace Examples
+            {
+                public class TestQuery : IQuery;
+
+                public class TestQueryHandler1 : IQueryHandler<TestQuery, int>
+                {
+                    public Task<int> Handle(TestQuery query, CancellationToken cancellation)
+                    {
+                        throw new NotImplementedException();
+                    }
+                }
+
+                public class TestQueryHandler2 : IQueryHandler<TestQuery, int>
+                {
+                    public Task<int> Handle(TestQuery query, CancellationToken cancellation)
+                    {
+                        throw new NotImplementedException();
+                    }
+                }
+
+                public class TestQueryHandler3 : IQueryHandler<TestQuery, int>
+                {
+                    public Task<int> Handle(TestQuery query, CancellationToken cancellation)
+                    {
+                        throw new NotImplementedException();
+                    }
+                }
+
+                public partial class TestQueryPipeline : IQueryPipeline<TestQuery, int, TestQueryHandler1, TestQueryHandler2, TestQueryHandler3>;
+            }
+            """;
+            return this.VerifyIncrementalGenerators(source, new PipelinesGenerator());
+        }
+
+        [TestMethod]
+        public Task OneQueryThreeHandlersWithArguments_ShouldGenerate()
+        {
+            const string source = """
+            using System.Threading;
+            using Minerals.AutoCQRS;
+
+            namespace Examples
+            {
+                public class ExampleSevice1;
+                public class ExampleSevice2;
+                public class ExampleSevice3;
+                public class TestQuery : IQuery;
+
+                public class TestQueryHandler1 : IQueryHandler<TestQuery, int>
+                {
+                    public TestQueryHandler1(ExampleSevice1 sevice1)
+                    {
+
+                    }
+
+                    public Task<int> Handle(TestQuery query, CancellationToken cancellation)
+                    {
+                        throw new NotImplementedException();
+                    }
+                }
+
+                public class TestQueryHandler2 : IQueryHandler<TestQuery, int>
+                {
+                    public TestQueryHandler2(ExampleSevice2 sevice2)
+                    {
+
+                    }
+
+                    public Task<int> Handle(TestQuery query, CancellationToken cancellation)
+                    {
+                        throw new NotImplementedException();
+                    }
+                }
+
+                public class TestQueryHandler3 : IQueryHandler<TestQuery, int>
+                {
+                    public TestQueryHandler3(ExampleSevice2 sevice2, ExampleSevice3 sevice3)
+                    {
+
+                    }
+
+                    public Task<int> Handle(TestQuery query, CancellationToken cancellation)
+                    {
+                        throw new NotImplementedException();
+                    }
+                }
+
+                public partial class TestQueryPipeline : IQueryPipeline<TestQuery, int, TestQueryHandler1, TestQueryHandler2, TestQueryHandler3>;
+            }
+            """;
+            return this.VerifyIncrementalGenerators(source, new PipelinesGenerator());
         }
     }
 }

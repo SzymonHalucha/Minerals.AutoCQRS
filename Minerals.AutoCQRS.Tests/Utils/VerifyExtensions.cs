@@ -2,10 +2,10 @@ namespace Minerals.AutoCQRS.Tests.Utils
 {
     public static class VerifyExtensions
     {
-        private static IEnumerable<MetadataReference> s_globalReferences = Array.Empty<MetadataReference>();
-        private static bool s_scrubCommentLines = false;
-        private static bool s_scrubVersionInfo = true;
-        private static bool s_isInitialized = false;
+        private static IEnumerable<MetadataReference> _globalReferences = Array.Empty<MetadataReference>();
+        private static bool _scrubCommentLines = false;
+        private static bool _scrubVersionInfo = true;
+        private static bool _isInitialized = false;
 
         public static void Initialize
         (
@@ -17,16 +17,16 @@ namespace Minerals.AutoCQRS.Tests.Utils
         {
             order ??= new DiffTool[] { DiffTool.VisualStudioCode, DiffTool.VisualStudio, DiffTool.Rider, DiffTool.Neovim, DiffTool.Vim };
 
-            if (!s_isInitialized)
+            if (!_isInitialized)
             {
                 DiffTools.UseOrder(order.ToArray());
                 VerifyBase.UseProjectRelativeDirectory("Snapshots");
                 VerifierSettings.UseEncoding(System.Text.Encoding.UTF8);
                 VerifySourceGenerators.Initialize();
-                s_globalReferences = globalReferences;
-                s_scrubCommentLines = removeCommentLines;
-                s_scrubVersionInfo = removeVersionInfo;
-                s_isInitialized = true;
+                _globalReferences = globalReferences;
+                _scrubCommentLines = removeCommentLines;
+                _scrubVersionInfo = removeVersionInfo;
+                _isInitialized = true;
             }
         }
 
@@ -102,7 +102,7 @@ namespace Minerals.AutoCQRS.Tests.Utils
         )
         {
             var cSharpCmp = CSharpCompilation.Create("Tests")
-                .AddReferences(s_globalReferences)
+                .AddReferences(_globalReferences)
                 .WithOptions(new CSharpCompilationOptions
                 (
                     OutputKind.DynamicallyLinkedLibrary,
@@ -138,7 +138,7 @@ namespace Minerals.AutoCQRS.Tests.Utils
             var tree = CSharpSyntaxTree.ParseText(source);
             var cSharpCmp = CSharpCompilation.Create("Tests")
                 .AddReferences(MetadataReference.CreateFromFile(tree.GetType().Assembly.Location))
-                .AddReferences(s_globalReferences)
+                .AddReferences(_globalReferences)
                 .AddSyntaxTrees(tree)
                 .WithOptions(new CSharpCompilationOptions
                 (
@@ -166,7 +166,7 @@ namespace Minerals.AutoCQRS.Tests.Utils
 
         private static SettingsTask ApplyDynamicSettings(SettingsTask task)
         {
-            if (s_scrubCommentLines)
+            if (_scrubCommentLines)
             {
                 bool isBlockComment = false;
                 task.ScrubLines("cs", x =>
@@ -191,7 +191,7 @@ namespace Minerals.AutoCQRS.Tests.Utils
                     }
                 });
             }
-            else if (s_scrubVersionInfo)
+            else if (_scrubVersionInfo)
             {
                 task.ScrubLinesWithReplace("cs", x =>
                 {
