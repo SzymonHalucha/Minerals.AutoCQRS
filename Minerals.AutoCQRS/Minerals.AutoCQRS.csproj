@@ -10,6 +10,7 @@
         <RootNamespace>Minerals.AutoCQRS</RootNamespace>
         <IncludeBuildOutput>true</IncludeBuildOutput>
         <IsPackable>true</IsPackable>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     </PropertyGroup>
 
     <PropertyGroup>
@@ -38,7 +39,6 @@
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)'=='Release'">
-        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <EnablePackageValidation>true</EnablePackageValidation>
         <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
         <Optimize>true</Optimize>

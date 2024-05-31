@@ -4,6 +4,6 @@ namespace Minerals.AutoCQRS
         where TQuery : IQuery, new()
         where TResult : notnull
     {
-        public Task<TResult> Handle(TQuery query, CancellationToken cancellation);
+        public Task<TResult> Handle(TQuery query, CancellationToken cancellation = default);
     }
 }

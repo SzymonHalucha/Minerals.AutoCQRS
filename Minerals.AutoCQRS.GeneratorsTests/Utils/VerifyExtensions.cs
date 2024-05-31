@@ -1,4 +1,4 @@
-namespace Minerals.AutoCQRS.Tests.Utils
+namespace Minerals.AutoCQRS.GeneratorsTests.Utils
 {
     public static class VerifyExtensions
     {

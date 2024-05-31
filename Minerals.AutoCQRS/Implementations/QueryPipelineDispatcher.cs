@@ -4,7 +4,7 @@ namespace Minerals.AutoCQRS
     {
         private readonly IServiceProvider _provider = provider;
 
-        public async Task<IReadOnlyList<TResult>> Dispatch<TQuery, TResult>(TQuery query, CancellationToken cancellation)
+        public async Task<IReadOnlyList<TResult>> Dispatch<TQuery, TResult>(TQuery query, CancellationToken cancellation = default)
             where TQuery : IQuery, new()
             where TResult : notnull
         {

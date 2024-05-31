@@ -4,7 +4,7 @@ namespace Minerals.AutoCQRS
         where TCommand : ICommand, new()
         where TResult : notnull
     {
-        public IAsyncEnumerable<TResult> Handle(TCommand command, CancellationToken cancellation);
+        public IAsyncEnumerable<TResult> Handle(TCommand command, CancellationToken cancellation = default);
     }
 
     public interface ICommandPipeline<TCommand, TResult, T1, T2> : ICommandPipeline<TCommand, TResult>

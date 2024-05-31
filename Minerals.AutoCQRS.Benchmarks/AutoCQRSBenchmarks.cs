@@ -29,7 +29,7 @@ namespace Minerals.AutoCQRS.Benchmarks
 
                 }
 
-                public Task<int> Handle(ExampleCommand command, CancellationToken cancellation)
+                public Task<int> Handle(ExampleCommand command, CancellationToken cancellation = default)
                 {
                     return Task.FromResult<int>(default!);
                 }
@@ -42,7 +42,7 @@ namespace Minerals.AutoCQRS.Benchmarks
 
                 }
 
-                public Task<int> Handle(ExampleCommand command, CancellationToken cancellation)
+                public Task<int> Handle(ExampleCommand command, CancellationToken cancellation = default)
                 {
                     return Task.FromResult<int>(default!);
                 }
@@ -55,7 +55,7 @@ namespace Minerals.AutoCQRS.Benchmarks
 
                 }
 
-                public Task<int> Handle(ExampleCommand command, CancellationToken cancellation)
+                public Task<int> Handle(ExampleCommand command, CancellationToken cancellation = default)
                 {
                     return Task.FromResult<int>(default!);
                 }
@@ -67,7 +67,7 @@ namespace Minerals.AutoCQRS.Benchmarks
 
             public class ExampleQueryHandler1
             {
-                public Task<int> Handle(ExampleQuery query, CancellationToken cancellation)
+                public Task<int> Handle(ExampleQuery query, CancellationToken cancellation = default)
                 {
                     return Task.FromResult<int>(default!);
                 }
@@ -75,7 +75,7 @@ namespace Minerals.AutoCQRS.Benchmarks
 
             public class ExampleQueryHandler2
             {
-                public Task<int> Handle(ExampleQuery query, CancellationToken cancellation)
+                public Task<int> Handle(ExampleQuery query, CancellationToken cancellation = default)
                 {
                     return Task.FromResult<int>(default!);
                 }
@@ -83,7 +83,7 @@ namespace Minerals.AutoCQRS.Benchmarks
 
             public class ExampleQueryHandler3
             {
-                public Task<int> Handle(ExampleQuery query, CancellationToken cancellation)
+                public Task<int> Handle(ExampleQuery query, CancellationToken cancellation = default)
                 {
                     return Task.FromResult<int>(default!);
                 }
@@ -109,7 +109,7 @@ namespace Minerals.AutoCQRS.Benchmarks
 
                 }
 
-                public Task<int> Handle(ExampleCommand command, CancellationToken cancellation)
+                public Task<int> Handle(ExampleCommand command, CancellationToken cancellation = default)
                 {
                     return Task.FromResult<int>(default!);
                 }
@@ -122,7 +122,7 @@ namespace Minerals.AutoCQRS.Benchmarks
 
                 }
 
-                public Task<int> Handle(ExampleCommand command, CancellationToken cancellation)
+                public Task<int> Handle(ExampleCommand command, CancellationToken cancellation = default)
                 {
                     return Task.FromResult<int>(default!);
                 }
@@ -135,7 +135,7 @@ namespace Minerals.AutoCQRS.Benchmarks
 
                 }
 
-                public Task<int> Handle(ExampleCommand command, CancellationToken cancellation)
+                public Task<int> Handle(ExampleCommand command, CancellationToken cancellation = default)
                 {
                     return Task.FromResult<int>(default!);
                 }
@@ -147,7 +147,7 @@ namespace Minerals.AutoCQRS.Benchmarks
 
             public class ExampleQueryHandler1 : IQueryHandler<ExampleQuery, int>
             {
-                public Task<int> Handle(ExampleQuery query, CancellationToken cancellation)
+                public Task<int> Handle(ExampleQuery query, CancellationToken cancellation = default)
                 {
                     return Task.FromResult<int>(default!);
                 }
@@ -155,7 +155,7 @@ namespace Minerals.AutoCQRS.Benchmarks
 
             public class ExampleQueryHandler2 : IQueryHandler<ExampleQuery, int>
             {
-                public Task<int> Handle(ExampleQuery query, CancellationToken cancellation)
+                public Task<int> Handle(ExampleQuery query, CancellationToken cancellation = default)
                 {
                     return Task.FromResult<int>(default!);
                 }
@@ -163,7 +163,7 @@ namespace Minerals.AutoCQRS.Benchmarks
 
             public class ExampleQueryHandler3 : IQueryHandler<ExampleQuery, int>
             {
-                public Task<int> Handle(ExampleQuery query, CancellationToken cancellation)
+                public Task<int> Handle(ExampleQuery query, CancellationToken cancellation = default)
                 {
                     return Task.FromResult<int>(default!);
                 }
@@ -189,7 +189,7 @@ namespace Minerals.AutoCQRS.Benchmarks
 
                 }
 
-                public Task<int> Handle(ExampleCommand command, CancellationToken cancellation)
+                public Task<int> Handle(ExampleCommand command, CancellationToken cancellation = default)
                 {
                     return Task.FromResult<int>(default!);
                 }
@@ -202,7 +202,7 @@ namespace Minerals.AutoCQRS.Benchmarks
 
                 }
 
-                public Task<int> Handle(ExampleCommand command, CancellationToken cancellation)
+                public Task<int> Handle(ExampleCommand command, CancellationToken cancellation = default)
                 {
                     return Task.FromResult<int>(default!);
                 }
@@ -215,7 +215,7 @@ namespace Minerals.AutoCQRS.Benchmarks
 
                 }
 
-                public Task<int> Handle(ExampleCommand command, CancellationToken cancellation)
+                public Task<int> Handle(ExampleCommand command, CancellationToken cancellation = default)
                 {
                     return Task.FromResult<int>(default!);
                 }
@@ -227,7 +227,7 @@ namespace Minerals.AutoCQRS.Benchmarks
 
             public class ExampleQueryHandler1
             {
-                public Task<int> Handle(ExampleQuery query, CancellationToken cancellation)
+                public Task<int> Handle(ExampleQuery query, CancellationToken cancellation = default)
                 {
                     return Task.FromResult<int>(default!);
                 }
@@ -235,7 +235,7 @@ namespace Minerals.AutoCQRS.Benchmarks
 
             public class ExampleQueryHandler2
             {
-                public Task<int> Handle(ExampleQuery query, CancellationToken cancellation)
+                public Task<int> Handle(ExampleQuery query, CancellationToken cancellation = default)
                 {
                     return Task.FromResult<int>(default!);
                 }
@@ -243,7 +243,7 @@ namespace Minerals.AutoCQRS.Benchmarks
 
             public class ExampleQueryHandler3
             {
-                public Task<int> Handle(ExampleQuery query, CancellationToken cancellation)
+                public Task<int> Handle(ExampleQuery query, CancellationToken cancellation = default)
                 {
                     return Task.FromResult<int>(default!);
                 }
@@ -269,7 +269,7 @@ namespace Minerals.AutoCQRS.Benchmarks
 
                 }
 
-                public Task<int> Handle(ExampleCommand command, CancellationToken cancellation)
+                public Task<int> Handle(ExampleCommand command, CancellationToken cancellation = default)
                 {
                     return Task.FromResult<int>(default!);
                 }
@@ -282,7 +282,7 @@ namespace Minerals.AutoCQRS.Benchmarks
 
                 }
 
-                public Task<int> Handle(ExampleCommand command, CancellationToken cancellation)
+                public Task<int> Handle(ExampleCommand command, CancellationToken cancellation = default)
                 {
                     return Task.FromResult<int>(default!);
                 }
@@ -295,7 +295,7 @@ namespace Minerals.AutoCQRS.Benchmarks
 
                 }
 
-                public Task<int> Handle(ExampleCommand command, CancellationToken cancellation)
+                public Task<int> Handle(ExampleCommand command, CancellationToken cancellation = default)
                 {
                     return Task.FromResult<int>(default!);
                 }
@@ -307,7 +307,7 @@ namespace Minerals.AutoCQRS.Benchmarks
 
             public class ExampleQueryHandler1 : IQueryHandler<ExampleQuery, int>
             {
-                public Task<int> Handle(ExampleQuery query, CancellationToken cancellation)
+                public Task<int> Handle(ExampleQuery query, CancellationToken cancellation = default)
                 {
                     return Task.FromResult<int>(default!);
                 }
@@ -315,7 +315,7 @@ namespace Minerals.AutoCQRS.Benchmarks
 
             public class ExampleQueryHandler2 : IQueryHandler<ExampleQuery, int>
             {
-                public Task<int> Handle(ExampleQuery query, CancellationToken cancellation)
+                public Task<int> Handle(ExampleQuery query, CancellationToken cancellation = default)
                 {
                     return Task.FromResult<int>(default!);
                 }
@@ -323,7 +323,7 @@ namespace Minerals.AutoCQRS.Benchmarks
 
             public class ExampleQueryHandler3 : IQueryHandler<ExampleQuery, int>
             {
-                public Task<int> Handle(ExampleQuery query, CancellationToken cancellation)
+                public Task<int> Handle(ExampleQuery query, CancellationToken cancellation = default)
                 {
                     return Task.FromResult<int>(default!);
                 }

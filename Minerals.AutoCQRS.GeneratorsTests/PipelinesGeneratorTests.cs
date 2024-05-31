@@ -1,4 +1,4 @@
-namespace Minerals.AutoCQRS.Tests
+namespace Minerals.AutoCQRS.GeneratorsTests
 {
     [TestClass]
     public class PipelinesGeneratorTests : VerifyBase

@@ -68,7 +68,7 @@ namespace Minerals.AutoCQRS.Generators
         {
             return symbol.Interfaces.Any(x =>
             {
-                return (x.Name.Equals(Constants.ICommandHandler) || x.Name.Equals(Constants.IQueryPipeline))
+                return (x.Name.Equals(Constants.ICommandHandler) || x.Name.Equals(Constants.IQueryHandler))
                     && x.ContainingNamespace.Name.Equals(nameof(AutoCQRS))
                     && x.ContainingNamespace.ContainingNamespace.Name.Equals(nameof(Minerals));
             });

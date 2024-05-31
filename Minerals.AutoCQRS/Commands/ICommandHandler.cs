@@ -4,6 +4,6 @@ namespace Minerals.AutoCQRS
         where TCommand : ICommand, new()
         where TResult : notnull
     {
-        public Task<TResult> Handle(TCommand command, CancellationToken cancellation);
+        public Task<TResult> Handle(TCommand command, CancellationToken cancellation = default);
     }
 }

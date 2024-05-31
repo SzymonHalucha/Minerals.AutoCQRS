@@ -4,7 +4,7 @@ namespace Minerals.AutoCQRS
         where TQuery : IQuery, new()
         where TResult : notnull
     {
-        public IAsyncEnumerable<TResult> Handle(TQuery query, CancellationToken cancellation);
+        public IAsyncEnumerable<TResult> Handle(TQuery query, CancellationToken cancellation = default);
     }
 
     public interface IQueryPipeline<TQuery, TResult, T1, T2> : IQueryPipeline<TQuery, TResult>
