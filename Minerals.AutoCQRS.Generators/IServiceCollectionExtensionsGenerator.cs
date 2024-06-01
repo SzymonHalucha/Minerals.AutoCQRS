@@ -84,10 +84,10 @@ namespace Minerals.AutoCQRS.Generators
             AppendStaticClassHeader(builder);
 
             AppendExtensionMethodHeader(builder, Constants.HandlerDispatchers, Constants.AddAutoCQRSHandlers);
-            AppendExtensionMethodBodyForHandlers(builder, handlers);
+            AppendExtensionMethodBody(builder, handlers);
 
             AppendExtensionMethodHeader(builder, Constants.PipelineDispatchers, Constants.AddAutoCQRSPipelines);
-            AppendExtensionMethodBodyForPipelines(builder, pipelines);
+            AppendExtensionMethodBody(builder, pipelines);
 
             AppendDefaultInjectPolicyMethod(builder);
 
@@ -131,24 +131,9 @@ namespace Minerals.AutoCQRS.Generators
             }
         }
 
-        private static void AppendExtensionMethodBodyForHandlers(CodeBuilder builder, ImmutableArray<HandlerNameObject> handlers)
+        private static void AppendExtensionMethodBody(CodeBuilder builder, IEnumerable<NameObject> handlers)
         {
             foreach (var item in handlers)
-            {
-                builder.WriteLine("injectPolicy.Invoke(collection, typeof(")
-                    .Write(item.InterfaceFullTypeName)
-                    .Write("), typeof(")
-                    .Write(item.FullTypeName)
-                    .Write("));");
-            }
-            builder.WriteLine("return collection;")
-                .CloseBlock()
-                .NewLine();
-        }
-
-        private static void AppendExtensionMethodBodyForPipelines(CodeBuilder builder, ImmutableArray<PipelineNameObject> pipelines)
-        {
-            foreach (var item in pipelines)
             {
                 builder.WriteLine("injectPolicy.Invoke(collection, typeof(")
                     .Write(item.InterfaceFullTypeName)

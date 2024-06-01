@@ -61,6 +61,6 @@ namespace PipelinesTestEnvironment
             return Task.FromResult($"{GetType().Name} - {query.Value}");
         }
     }
-
+    
     public partial class TestQuery1Pipeline1 : IQueryPipeline<TestQuery1, string, TestQuery1Handler1, TestQuery1Handler2>;
 }

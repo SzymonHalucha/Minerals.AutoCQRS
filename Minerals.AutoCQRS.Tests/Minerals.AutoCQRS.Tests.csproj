@@ -32,7 +32,7 @@
     </Target>
 
     <Target Name="Build2" BeforeTargets="Build">
-        <MSBuild Projects="..\Minerals.AutoCQRS.Generators\Minerals.AutoCQRS.Generators.csproj" Properties="Configuration=$(Configuration);Optimize=$(Optimize);" />
+        <MSBuild Projects="../Minerals.AutoCQRS.Generators/Minerals.AutoCQRS.Generators.csproj" Properties="Configuration=$(Configuration);Optimize=$(Optimize);" />
     </Target>
 
 </Project>
