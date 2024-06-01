@@ -51,11 +51,12 @@
         <None Include="$(PKGMinerals_CodeBuilder)\lib\netstandard2.0\Minerals.CodeBuilder.dll" Pack="true" Visible="false" PackagePath="analyzers\dotnet\cs" />
         <None Include="$(PKGMinerals_StringCases)\lib\netstandard2.0\Minerals.StringCases.dll" Pack="true" Visible="false" PackagePath="analyzers\dotnet\cs" />
         <None Include="$(PKGMicrosoft_Bcl_HashCode)\lib\netstandard2.0\Microsoft.Bcl.HashCode.dll" Pack="true" Visible="false" PackagePath="analyzers\dotnet\cs" />
+        <None Include="$(PKGMicrosoft_Bcl_AsyncInterfaces)\lib\netstandard2.0\Microsoft.Bcl.AsyncInterfaces.dll" Pack="true" Visible="false" PackagePath="analyzers\dotnet\cs" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="8.*" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.*" />
+        <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="8.*" GeneratePathProperty="true" PrivateAssets="all" />
         <PackageReference Include="Microsoft.Bcl.HashCode" Version="1.*" GeneratePathProperty="true" PrivateAssets="all" />
         <PackageReference Include="Minerals.CodeBuilder" Version="0.*" GeneratePathProperty="true" PrivateAssets="all" />
         <PackageReference Include="Minerals.StringCases" Version="0.*" GeneratePathProperty="true" PrivateAssets="all" />
