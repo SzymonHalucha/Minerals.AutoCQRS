@@ -195,14 +195,7 @@ namespace Minerals.AutoCQRS.GeneratorsTests.Utils
             {
                 task.ScrubLinesWithReplace("cs", x =>
                 {
-                    if (x.Replace(" ", "").StartsWith("//Version:"))
-                    {
-                        return "// Version: {Removed}";
-                    }
-                    else
-                    {
-                        return x;
-                    }
+                    return x.Replace(" ", "").StartsWith("//Version:") ? "// Version: {Removed}" : x;
                 });
             }
             return task;
